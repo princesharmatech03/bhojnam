@@ -1,0 +1,1795 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bhojanam Cafe &amp; Food Court | Warm Dining &amp; Fresh Flavors</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&family=Playfair+Display:ital,wght@0,500..700;1,500..700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: '#fff9f0',
+            creamWarm: '#f5ebdc',
+            creamDeep: '#ebd9c1',
+            ink: '#201812',
+            inkSoft: '#524439',
+            accent: '#e97827',
+            accentDark: '#c95e14',
+            sage: '#425b3d',
+            sageLight: '#eef3ec',
+          },
+          fontFamily: {
+            serif: ['"Playfair Display"', 'Georgia', 'serif'],
+            sans: ['"DM Sans"', 'system-ui', 'sans-serif'],
+          },
+          boxShadow: {
+            editorial: '0 22px 50px -15px rgba(32, 24, 18, 0.12)',
+            card: '0 12px 30px -10px rgba(32, 24, 18, 0.08)',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #fff9f0;
+      color: #201812;
+      font-family: 'DM Sans', system-ui, sans-serif;
+      overflow-x: hidden;
+    }
+    .font-editorial {
+      font-family: 'Playfair Display', Georgia, serif;
+    }
+    /* Custom subtle scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #fff9f0;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #d8c3a8;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #e97827;
+    }
+    /* Scroll reveal utility */
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    /* Zoomable lightbox container */
+    .lightbox-zoom {
+      transition: transform 0.25s ease-out;
+      cursor: zoom-in;
+    }
+    .lightbox-zoom.zoomed {
+      transform: scale(1.65);
+      cursor: zoom-out;
+    }
+  </style>
+</head>
+<body class="bg-cream text-ink antialiased selection:bg-accent/20 selection:text-ink">
+
+  <!-- Scroll Progress Bar -->
+  <div id="scroll-progress" class="fixed top-0 left-0 h-1 bg-gradient-to-r from-accent via-amber-500 to-sage z-[60] transition-all duration-150" style="width: 0%;"></div>
+
+  <!-- Top Editorial Bar & Navigation -->
+  <header id="navbar" class="sticky top-0 z-40 bg-cream/90 backdrop-blur-md border-b border-ink/10 transition-shadow duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        <!-- Brand Mark & Wordmark -->
+        <a href="#top" class="flex items-center gap-3.5 group focus:outline-none">
+          <div class="w-11 h-11 rounded-2xl bg-ink text-cream flex items-center justify-center font-editorial text-2xl font-bold shadow-sm group-hover:bg-accent transition-colors duration-300">
+            भ
+          </div>
+          <div>
+            <span class="block font-editorial text-xl sm:text-2xl font-bold tracking-tight text-ink leading-none">Bhojanam</span>
+            <span class="block text-[11px] uppercase tracking-[0.2em] text-inkSoft mt-1 font-medium">Cafe &amp; Food Court</span>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation Links -->
+        <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-inkSoft">
+          <a href="#about" class="nav-link hover:text-accent transition-colors py-1 border-b-2 border-transparent">Our Story</a>
+          <a href="#menu" class="nav-link hover:text-accent transition-colors py-1 border-b-2 border-transparent">Menu &amp; Boards</a>
+          <a href="#gallery" class="nav-link hover:text-accent transition-colors py-1 border-b-2 border-transparent">Atmosphere</a>
+          <a href="#visit" class="nav-link hover:text-accent transition-colors py-1 border-b-2 border-transparent">Visit &amp; Hours</a>
+        </nav>
+
+        <!-- Actions: Live Status + Order Tray + Reserve -->
+        <div class="flex items-center gap-2.5 sm:gap-3">
+          <!-- Live Status Pill (Hidden on very small screens) -->
+          <button onclick="openHoursModal()" title="View live hours & peak crowd times" class="hidden xl:inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-sageLight border border-sage/20 text-sage text-xs font-semibold hover:bg-sage/15 transition">
+            <span id="live-status-dot" class="w-2 h-2 rounded-full bg-sage animate-pulse"></span>
+            <span id="live-status-text">Open Now · Till 10:30 PM</span>
+          </button>
+
+          <!-- Table Order Tray Button -->
+          <button onclick="toggleOrderDrawer(true)" class="relative inline-flex items-center gap-2 px-3.5 sm:px-4 py-2.5 rounded-full bg-creamWarm hover:bg-creamDeep text-ink border border-ink/15 text-sm font-semibold transition active:scale-95">
+            <svg class="w-4 h-4 text-accent" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+            </svg>
+            <span class="hidden sm:inline">Table Tray</span>
+            <span id="tray-badge" class="inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 rounded-full bg-accent text-white text-xs font-bold">0</span>
+          </button>
+
+          <!-- Reserve Table Button -->
+          <button onclick="openReserveModal()" class="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-ink hover:bg-accent text-cream text-sm font-semibold shadow-sm transition-colors duration-300 active:scale-95">
+            <span>Reserve a Table</span>
+          </button>
+
+          <!-- Mobile Hamburger -->
+          <button id="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Toggle Menu" class="md:hidden p-2.5 rounded-xl bg-creamWarm text-ink hover:bg-creamDeep transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobile-menu" class="hidden md:hidden bg-cream border-t border-ink/10 px-4 pt-3 pb-6 space-y-3 shadow-lg">
+      <div class="flex items-center justify-between px-3 py-2 rounded-xl bg-sageLight text-sage text-xs font-semibold">
+        <span class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-sage animate-pulse"></span>
+          <span id="mobile-live-status">Open Now · 9:00 AM – 10:30 PM</span>
+        </span>
+        <button onclick="openHoursModal(); toggleMobileMenu();" class="underline">Peak Times</button>
+      </div>
+      <nav class="flex flex-col space-y-1 text-base font-medium">
+        <a href="#about" onclick="toggleMobileMenu()" class="px-3 py-2.5 rounded-xl hover:bg-creamWarm transition">Our Story</a>
+        <a href="#menu" onclick="toggleMobileMenu()" class="px-3 py-2.5 rounded-xl hover:bg-creamWarm transition">Menu &amp; Boards</a>
+        <a href="#gallery" onclick="toggleMobileMenu()" class="px-3 py-2.5 rounded-xl hover:bg-creamWarm transition">Atmosphere</a>
+        <a href="#visit" onclick="toggleMobileMenu()" class="px-3 py-2.5 rounded-xl hover:bg-creamWarm transition">Visit &amp; Hours</a>
+      </nav>
+      <div class="pt-2 flex gap-2">
+        <button onclick="toggleMobileMenu(); openReserveModal();" class="w-full py-3 rounded-full bg-ink text-cream font-semibold text-sm text-center">
+          Plan Your Visit / Reserve
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main id="top">
+    <!-- Hero Section -->
+    <section class="relative pt-10 pb-16 sm:pt-14 sm:pb-24 lg:pt-16 lg:pb-28 overflow-hidden">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+          
+          <!-- Left Editorial Copy -->
+          <div class="lg:col-span-6 space-y-6 sm:space-y-7">
+            <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-creamWarm border border-ink/10 text-xs font-semibold uppercase tracking-widest text-inkSoft">
+              <span class="w-2 h-2 rounded-full bg-accent"></span>
+              Freshly Prepared · Everyday Comfort
+            </div>
+
+            <h1 class="font-editorial text-4xl sm:text-5xl lg:text-[3.5rem] font-bold text-ink leading-[1.12] tracking-tight">
+              Wholesome flavors, warm hospitality, &amp; <span class="italic text-accent font-normal">unhurried</span> gatherings.
+            </h1>
+
+            <p class="text-base sm:text-lg text-inkSoft leading-relaxed max-w-xl">
+              From crisp evening snacks and hand-rolled breads off the tandoor to aromatic masala chai and hearty North Indian platters—Bhojanam brings neighborhood warmth to every table.
+            </p>
+
+            <!-- Hero CTAs -->
+            <div class="flex flex-wrap items-center gap-3.5 pt-1">
+              <a href="#menu" class="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full bg-accent hover:bg-accentDark text-white font-semibold text-sm sm:text-base shadow-md transition-all active:scale-95">
+                <span>Explore Menu &amp; Order</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </a>
+              <button onclick="openReserveModal()" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-creamWarm hover:bg-creamDeep text-ink border border-ink/15 font-semibold text-sm sm:text-base transition-all active:scale-95">
+                <span>Plan Your Visit</span>
+              </button>
+            </div>
+
+            <!-- Editorial Highlights Strip -->
+            <div class="grid grid-cols-3 gap-4 pt-6 border-t border-ink/10 max-w-lg">
+              <div>
+                <p class="font-editorial text-xl sm:text-2xl font-bold text-ink">100% Veg</p>
+                <p class="text-xs text-inkSoft mt-0.5">Pure &amp; fresh kitchen</p>
+              </div>
+              <div>
+                <p class="font-editorial text-xl sm:text-2xl font-bold text-sage">Live Tandoor</p>
+                <p class="text-xs text-inkSoft mt-0.5">Made-to-order breads</p>
+              </div>
+              <div>
+                <p class="font-editorial text-xl sm:text-2xl font-bold text-accent">Group Ready</p>
+                <p class="text-xs text-inkSoft mt-0.5">Cozy booths &amp; court</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Hero Framed Photo -->
+          <div class="lg:col-span-6">
+            <div class="relative rounded-[2rem] overflow-hidden bg-creamWarm p-2.5 sm:p-3.5 border border-ink/10 shadow-editorial group">
+              <div class="relative rounded-[1.5rem] overflow-hidden aspect-[4/3] bg-creamDeep">
+                <!-- Embedded Hero Interior Photo -->
+                <img
+                  id="hero-img"
+                  data-asset="hero"
+                  alt="Bhojanam Cafe & Food Court warm timber and brick dining interior"
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 cursor-pointer"
+                  onclick="openLightbox(this.src, 'Bhojanam Main Dining Hall', 'Warm ambient pendant lighting, handcrafted brick walls, and comfortable booths designed for families and friends.')"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-ink/50 via-transparent to-transparent pointer-events-none"></div>
+                
+                <!-- Floating Caption Badge -->
+                <div class="absolute bottom-4 left-4 right-4 sm:bottom-5 sm:left-5 sm:right-5 flex items-center justify-between gap-3 bg-cream/95 backdrop-blur-md px-4 py-3 rounded-2xl border border-ink/10 shadow-sm">
+                  <div>
+                    <p class="text-xs uppercase tracking-wider text-accent font-bold">Inside Bhojanam</p>
+                    <p class="text-sm font-medium text-ink">Warm timber booths &amp; sunlit courtyard tables</p>
+                  </div>
+                  <button onclick="openLightbox(document.getElementById('hero-img').src, 'Bhojanam Main Dining Hall', 'Warm ambient pendant lighting, handcrafted brick walls, and comfortable booths designed for families and friends.')" class="p-2 rounded-xl bg-creamWarm hover:bg-accent hover:text-white text-ink transition" title="Expand photo">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- About / Our Story Section -->
+    <section id="about" class="py-16 sm:py-24 bg-creamWarm/60 border-y border-ink/10 reveal">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+          
+          <!-- About Photo -->
+          <div class="lg:col-span-5 order-2 lg:order-1">
+            <div class="relative rounded-[2rem] overflow-hidden bg-cream p-3 border border-ink/10 shadow-card group">
+              <div class="rounded-[1.5rem] overflow-hidden aspect-[4/4.3] bg-creamDeep relative">
+                <img
+                  id="about-img"
+                  data-asset="about"
+                  alt="Cozy cafe seating corner at Bhojanam"
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 cursor-pointer"
+                  onclick="openLightbox(this.src, 'Cozy Corner Seating', 'Intimate wooden tables and soft lighting crafted for long conversations over chai and snacks.')"
+                />
+              </div>
+              <div class="mt-3 px-2 py-1 flex items-center justify-between text-xs text-inkSoft">
+                <span class="font-medium">Crafted for comfort &amp; conversation</span>
+                <span class="text-sage font-semibold">Est. Neighborhood Favorite</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Story Copy -->
+          <div class="lg:col-span-7 order-1 lg:order-2 space-y-6">
+            <span class="inline-block text-xs font-bold uppercase tracking-[0.2em] text-sage">Our Philosophy</span>
+            <h2 class="font-editorial text-3xl sm:text-4xl lg:text-[2.75rem] font-bold text-ink leading-tight">
+              Rooted in traditional North Indian warmth, built for today’s cafe culture.
+            </h2>
+            <p class="text-base sm:text-lg text-inkSoft leading-relaxed">
+              At <strong class="text-ink font-semibold">Bhojanam Cafe &amp; Food Court</strong>, we believe great food should feel like coming home. Whether you are dropping in for an afternoon ginger-cardamom chai with crisp aloo tikki chaat, or gathering the whole family for paneer tikka and freshly buttered garlic naan, every dish is cooked to order using whole spices and farm-fresh produce.
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+              <div class="p-5 rounded-2xl bg-cream border border-ink/10">
+                <div class="w-9 h-9 rounded-xl bg-accent/15 text-accent flex items-center justify-center font-editorial font-bold text-lg mb-3">01</div>
+                <h3 class="font-editorial text-lg font-bold text-ink">From the Tandoor &amp; Kadhai</h3>
+                <p class="text-sm text-inkSoft mt-1.5 leading-relaxed">Slow-simmered gravies, smoky marinated paneer, and leavened breads baked fresh as you order.</p>
+              </div>
+              <div class="p-5 rounded-2xl bg-cream border border-ink/10">
+                <div class="w-9 h-9 rounded-xl bg-sage/15 text-sage flex items-center justify-center font-editorial font-bold text-lg mb-3">02</div>
+                <h3 class="font-editorial text-lg font-bold text-ink">Evening Chai &amp; Chaat Adda</h3>
+                <p class="text-sm text-inkSoft mt-1.5 leading-relaxed">Golden pakoras, tangy street-style chaats, brewed kulhad chai, and chilled thick cold coffee.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Menu Explorer & Original Menu Boards Section -->
+    <section id="menu" class="py-16 sm:py-24 reveal">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Section Header & View Toggle -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+          <div class="max-w-2xl">
+            <span class="inline-block text-xs font-bold uppercase tracking-[0.2em] text-accent mb-2">Curated Offerings</span>
+            <h2 class="font-editorial text-3xl sm:text-4xl lg:text-[2.75rem] font-bold text-ink leading-tight">
+              Explore Our Menu &amp; Kitchen Boards
+            </h2>
+            <p class="text-base text-inkSoft mt-2">
+              Inspect our original chalk &amp; timber menu boards in high resolution, or browse the interactive digital menu to build your table order.
+            </p>
+          </div>
+
+          <!-- Dual Mode Switcher -->
+          <div class="inline-flex p-1.5 rounded-2xl bg-creamWarm border border-ink/10 self-start md:self-auto shadow-sm">
+            <button id="tab-interactive" onclick="switchMenuView('interactive')" class="px-4 sm:px-5 py-2.5 rounded-xl text-sm font-semibold transition-all bg-ink text-cream shadow-sm">
+              Interactive Menu
+            </button>
+            <button id="tab-boards" onclick="switchMenuView('boards')" class="px-4 sm:px-5 py-2.5 rounded-xl text-sm font-semibold transition-all text-inkSoft hover:text-ink">
+              Original Boards (2)
+            </button>
+          </div>
+        </div>
+
+        <!-- VIEW A: Interactive Digital Menu Explorer -->
+        <div id="view-interactive" class="space-y-8">
+          <!-- Category Filter Pills & Search -->
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-ink/10">
+            <div class="flex flex-wrap items-center gap-2" id="category-filters">
+              <button onclick="filterMenu('all')" data-cat="all" class="cat-btn px-4 py-2 rounded-full text-xs sm:text-sm font-semibold bg-accent text-white transition">All Favourites</button>
+              <button onclick="filterMenu('kitchen')" data-cat="kitchen" class="cat-btn px-4 py-2 rounded-full text-xs sm:text-sm font-semibold bg-creamWarm text-inkSoft hover:text-ink transition">From the Kitchen</button>
+              <button onclick="filterMenu('breads')" data-cat="breads" class="cat-btn px-4 py-2 rounded-full text-xs sm:text-sm font-semibold bg-creamWarm text-inkSoft hover:text-ink transition">Tandoori Breads</button>
+              <button onclick="filterMenu('snacks')" data-cat="snacks" class="cat-btn px-4 py-2 rounded-full text-xs sm:text-sm font-semibold bg-creamWarm text-inkSoft hover:text-ink transition">Snacks &amp; Starters</button>
+              <button onclick="filterMenu('beverages')" data-cat="beverages" class="cat-btn px-4 py-2 rounded-full text-xs sm:text-sm font-semibold bg-creamWarm text-inkSoft hover:text-ink transition">Chai &amp; Beverages</button>
+            </div>
+
+            <div class="relative w-full sm:w-64">
+              <input
+                type="text"
+                id="menu-search"
+                oninput="renderMenuGrid()"
+                placeholder="Search paneer, naan, chai..."
+                class="w-full pl-9 pr-4 py-2 rounded-full bg-creamWarm border border-ink/15 text-sm text-ink placeholder:text-inkSoft/60 focus:outline-none focus:border-accent"
+              />
+              <svg class="w-4 h-4 text-inkSoft absolute left-3.5 top-2.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+          </div>
+
+          <!-- Menu Grid -->
+          <div id="menu-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <!-- Populated dynamically via JS -->
+          </div>
+
+          <!-- Quick Banner to Inspect Original Boards -->
+          <div class="rounded-3xl bg-creamWarm border border-ink/10 p-5 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 rounded-2xl bg-sage/15 text-sage flex items-center justify-center shrink-0">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+              </div>
+              <div>
+                <h4 class="font-editorial text-lg font-bold text-ink">Prefer viewing our physical cafe menu boards?</h4>
+                <p class="text-sm text-inkSoft">Click to inspect high-resolution photos of our "From the Kitchen" &amp; "Snacks &amp; Starters" boards.</p>
+              </div>
+            </div>
+            <button onclick="switchMenuView('boards')" class="px-5 py-2.5 rounded-full bg-ink hover:bg-accent text-cream text-sm font-semibold transition shrink-0">
+              View Menu Boards
+            </button>
+          </div>
+        </div>
+
+        <!-- VIEW B: Original Uploaded Menu Boards (High-Res Zoomable Lightbox Cards) -->
+        <div id="view-boards" class="hidden space-y-8">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Menu Board 1: From the Kitchen -->
+            <div class="rounded-[2rem] bg-creamWarm p-4 sm:p-5 border border-ink/10 shadow-card flex flex-col justify-between group">
+              <div>
+                <div class="flex items-center justify-between mb-3 px-1">
+                  <div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-accent">Board 01</span>
+                    <h3 class="font-editorial text-2xl font-bold text-ink">From the Kitchen</h3>
+                  </div>
+                  <button onclick="openLightbox(document.getElementById('menu-board-1').src, 'Menu Board 1: From the Kitchen', 'Click the image inside the viewer to toggle 1.65x zoom for easy reading.')" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-cream hover:bg-ink hover:text-cream text-xs font-semibold border border-ink/15 transition">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                    </svg>
+                    <span>Zoom Board</span>
+                  </button>
+                </div>
+
+                <div class="relative rounded-2xl overflow-hidden bg-creamDeep aspect-[3/4] cursor-zoom-in" onclick="openLightbox(document.getElementById('menu-board-1').src, 'Menu Board 1: From the Kitchen', 'Click the image inside the viewer to toggle 1.65x zoom for easy reading.')">
+                  <img
+                    id="menu-board-1"
+                    data-asset="menu1"
+                    alt="Bhojanam Menu Board 1 - From the Kitchen"
+                    class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
+                  />
+                  <div class="absolute bottom-3 right-3 bg-ink/80 text-cream text-xs px-3 py-1.5 rounded-full backdrop-blur-sm">
+                    Tap to inspect in HD
+                  </div>
+                </div>
+              </div>
+              <p class="text-sm text-inkSoft mt-4 px-1">
+                Featuring our signature Paneer gravies, Dal Makhani, freshly baked Naans, Stuffed Kulchas, and hearty combo platters.
+              </p>
+            </div>
+
+            <!-- Menu Board 2: Snacks & Starters -->
+            <div class="rounded-[2rem] bg-creamWarm p-4 sm:p-5 border border-ink/10 shadow-card flex flex-col justify-between group">
+              <div>
+                <div class="flex items-center justify-between mb-3 px-1">
+                  <div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-sage">Board 02</span>
+                    <h3 class="font-editorial text-2xl font-bold text-ink">Snacks &amp; Starters</h3>
+                  </div>
+                  <button onclick="openLightbox(document.getElementById('menu-board-2').src, 'Menu Board 2: Snacks & Starters', 'Click the image inside the viewer to toggle 1.65x zoom for easy reading.')" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-cream hover:bg-ink hover:text-cream text-xs font-semibold border border-ink/15 transition">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                    </svg>
+                    <span>Zoom Board</span>
+                  </button>
+                </div>
+
+                <div class="relative rounded-2xl overflow-hidden bg-creamDeep aspect-[3/4] cursor-zoom-in" onclick="openLightbox(document.getElementById('menu-board-2').src, 'Menu Board 2: Snacks & Starters', 'Click the image inside the viewer to toggle 1.65x zoom for easy reading.')">
+                  <img
+                    id="menu-board-2"
+                    data-asset="menu2"
+                    alt="Bhojanam Menu Board 2 - Snacks and Starters"
+                    class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
+                  />
+                  <div class="absolute bottom-3 right-3 bg-ink/80 text-cream text-xs px-3 py-1.5 rounded-full backdrop-blur-sm">
+                    Tap to inspect in HD
+                  </div>
+                </div>
+              </div>
+              <p class="text-sm text-inkSoft mt-4 px-1">
+                Evening favourites including Crispy Veg &amp; Paneer Pakoras, Aloo Tikki Chaat, Tandoori Starters, Masala Chai &amp; Cold Coffee.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Atmosphere & Interactive Gallery Section -->
+    <section id="gallery" class="py-16 sm:py-24 bg-creamWarm/60 border-y border-ink/10 reveal">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
+          <div>
+            <span class="inline-block text-xs font-bold uppercase tracking-[0.2em] text-sage mb-2">Spaces &amp; Vibe</span>
+            <h2 class="font-editorial text-3xl sm:text-4xl font-bold text-ink">Step Inside Bhojanam</h2>
+          </div>
+          <p class="text-sm text-inkSoft max-w-md">
+            Click any frame to explore our dining nooks, warm lighting, and food court atmosphere in full screen.
+          </p>
+        </div>
+
+        <!-- Bento Gallery Grid utilizing the user's embedded photos -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+          <!-- Primary Gallery Feature -->
+          <div class="md:col-span-7 rounded-[2rem] overflow-hidden bg-cream p-3 border border-ink/10 shadow-card group cursor-pointer" onclick="openLightbox(document.getElementById('gallery-img-1').src, 'Evening Ambience & Food Court Counter', 'Designed for effortless casual dining with warm wood accents and inviting aromas.')">
+            <div class="relative rounded-[1.5rem] overflow-hidden aspect-[16/11] bg-creamDeep">
+              <img
+                id="gallery-img-1"
+                data-asset="gallery"
+                alt="Bhojanam Cafe & Food Court evening atmosphere"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-ink/60 via-transparent to-transparent opacity-80 group-hover:opacity-95 transition"></div>
+              <div class="absolute bottom-5 left-5 right-5 text-cream flex items-end justify-between">
+                <div>
+                  <span class="text-xs uppercase tracking-widest text-amber-300 font-semibold">Food Court &amp; Counter</span>
+                  <h3 class="font-editorial text-xl sm:text-2xl font-bold mt-0.5">Warm Glow &amp; Fresh Service</h3>
+                </div>
+                <span class="w-10 h-10 rounded-full bg-cream/20 backdrop-blur-md flex items-center justify-center group-hover:bg-accent transition">
+                  <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Secondary Stacked Gallery Cards -->
+          <div class="md:col-span-5 flex flex-col gap-6">
+            <div class="rounded-[2rem] overflow-hidden bg-cream p-3 border border-ink/10 shadow-card group cursor-pointer flex-1" onclick="openLightbox(document.getElementById('gallery-img-2').src, 'Main Dining Lounge', 'Spacious family tables with plush seating and warm architectural finishes.')">
+              <div class="relative rounded-[1.5rem] overflow-hidden h-52 sm:h-full min-h-[210px] bg-creamDeep">
+                <img
+                  id="gallery-img-2"
+                  data-asset="hero"
+                  alt="Bhojanam Main Dining Lounge"
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-ink/65 via-transparent to-transparent"></div>
+                <div class="absolute bottom-4 left-4 right-4 text-cream">
+                  <p class="text-xs uppercase tracking-wider text-amber-300 font-semibold">Family Dining</p>
+                  <p class="font-editorial text-lg font-bold">The Central Hall</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="rounded-[2rem] overflow-hidden bg-cream p-3 border border-ink/10 shadow-card group cursor-pointer flex-1" onclick="openLightbox(document.getElementById('gallery-img-3').src, 'Intimate Cafe Corner', 'Ideal for two to four guests enjoying afternoon chai and starters.')">
+              <div class="relative rounded-[1.5rem] overflow-hidden h-52 sm:h-full min-h-[210px] bg-creamDeep">
+                <img
+                  id="gallery-img-3"
+                  data-asset="about"
+                  alt="Bhojanam Intimate Cafe Corner"
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-ink/65 via-transparent to-transparent"></div>
+                <div class="absolute bottom-4 left-4 right-4 text-cream">
+                  <p class="text-xs uppercase tracking-wider text-amber-300 font-semibold">Chai &amp; Conversations</p>
+                  <p class="font-editorial text-lg font-bold">Window &amp; Corner Nooks</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Visit & Hours Section -->
+    <section id="visit" class="py-16 sm:py-24 reveal">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="rounded-[2.5rem] bg-ink text-cream p-8 sm:p-12 lg:p-14 shadow-editorial relative overflow-hidden">
+          <!-- Subtle decorative warm glow -->
+          <div class="absolute -top-24 -right-24 w-80 h-80 rounded-full bg-accent/20 blur-3xl pointer-events-none"></div>
+          <div class="absolute -bottom-24 -left-24 w-80 h-80 rounded-full bg-sage/25 blur-3xl pointer-events-none"></div>
+
+          <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+            <div class="lg:col-span-7 space-y-6">
+              <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cream/10 border border-cream/15 text-xs font-semibold text-amber-300">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                <span id="visit-live-badge">Open Today · Serving Fresh Till 10:30 PM</span>
+              </div>
+
+              <h2 class="font-editorial text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight">
+                Pull up a chair at Bhojanam today.
+              </h2>
+
+              <p class="text-cream/80 text-base sm:text-lg max-w-xl leading-relaxed">
+                Whether it’s a quick solo chai break, an office lunch spread, or a celebratory family dinner, reserve your favorite seating vibe ahead of time.
+              </p>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-2">
+                <div class="space-y-1.5">
+                  <p class="text-xs uppercase tracking-widest text-amber-300/90 font-bold">Opening Hours</p>
+                  <p class="font-semibold text-base">Mon – Sun: 9:00 AM – 10:30 PM</p>
+                  <p class="text-sm text-cream/70">Evening Chaat &amp; Chai Counter: 4:00 PM – 8:30 PM</p>
+                </div>
+                <div class="space-y-1.5">
+                  <p class="text-xs uppercase tracking-widest text-amber-300/90 font-bold">Location &amp; Contact</p>
+                  <p class="font-semibold text-base">Bhojanam Cafe &amp; Food Court</p>
+                  <p class="text-sm text-cream/70">Central Food Court Plaza · Walk-ins &amp; Group Bookings Welcome</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="lg:col-span-5">
+              <div class="rounded-3xl bg-cream text-ink p-6 sm:p-8 shadow-xl space-y-5">
+                <div class="flex items-center justify-between">
+                  <h3 class="font-editorial text-2xl font-bold">Quick Table Pass</h3>
+                  <span class="px-2.5 py-1 rounded-full bg-sageLight text-sage text-xs font-bold">Instant Confirm</span>
+                </div>
+                <p class="text-sm text-inkSoft">
+                  Book a cozy corner booth, central food court table, or window seat in seconds—no waiting in queue.
+                </p>
+                <div class="space-y-3 pt-1">
+                  <button onclick="openReserveModal()" class="w-full py-3.5 px-6 rounded-full bg-accent hover:bg-accentDark text-white font-semibold text-sm sm:text-base shadow-md transition active:scale-95">
+                    Reserve a Table / Group Hangout
+                  </button>
+                  <button onclick="openHoursModal()" class="w-full py-3 px-6 rounded-full bg-creamWarm hover:bg-creamDeep text-ink font-semibold text-sm transition">
+                    Check Live Crowd &amp; Peak Hours
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-creamWarm border-t border-ink/10 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-ink text-cream flex items-center justify-center font-editorial text-lg font-bold">भ</div>
+        <div>
+          <span class="font-editorial font-bold text-lg text-ink">Bhojanam Cafe &amp; Food Court</span>
+          <p class="text-xs text-inkSoft">Warm hospitality, honest ingredients, memorable meals.</p>
+        </div>
+      </div>
+      <div class="flex flex-wrap items-center gap-6 text-sm text-inkSoft">
+        <a href="#about" class="hover:text-ink transition">Story</a>
+        <a href="#menu" class="hover:text-ink transition">Menu</a>
+        <a href="#gallery" class="hover:text-ink transition">Gallery</a>
+        <button onclick="openReserveModal()" class="text-accent font-semibold hover:underline">Book Table</button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===================================================================== -->
+  <!-- 1. SLIDE-OVER TABLE ORDER / PRE-ORDER TRAY DRAWER                     -->
+  <!-- ===================================================================== -->
+  <div id="order-drawer-backdrop" onclick="toggleOrderDrawer(false)" class="fixed inset-0 bg-ink/50 backdrop-blur-xs z-50 hidden opacity-0 transition-opacity duration-300"></div>
+  <aside id="order-drawer" class="fixed top-0 right-0 h-full w-full max-w-md bg-cream text-ink z-50 shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col border-l border-ink/10">
+    <!-- Drawer Header -->
+    <div class="px-6 py-5 border-b border-ink/10 flex items-center justify-between bg-creamWarm/60">
+      <div>
+        <span class="text-[11px] uppercase tracking-widest text-accent font-bold">Dine-In &amp; Pickup</span>
+        <h3 class="font-editorial text-2xl font-bold text-ink">Your Table Tray</h3>
+      </div>
+      <button onclick="toggleOrderDrawer(false)" class="p-2 rounded-full bg-creamWarm hover:bg-creamDeep text-ink transition" aria-label="Close tray">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Drawer Body -->
+    <div id="order-items-container" class="flex-1 overflow-y-auto p-6 space-y-4">
+      <!-- Populated dynamically -->
+    </div>
+
+    <!-- Drawer Footer: Table Note, Totals & Token Generator -->
+    <div id="order-footer" class="p-6 border-t border-ink/10 bg-creamWarm/70 space-y-4">
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block text-xs font-semibold text-inkSoft mb-1">Table # or Mode</label>
+          <input id="order-table-input" type="text" placeholder="e.g. Table 4 / Pickup" class="w-full px-3 py-2 rounded-xl bg-cream border border-ink/15 text-sm focus:outline-none focus:border-accent" />
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-inkSoft mb-1">Kitchen Note</label>
+          <input id="order-note-input" type="text" placeholder="Less spicy, extra chutney" class="w-full px-3 py-2 rounded-xl bg-cream border border-ink/15 text-sm focus:outline-none focus:border-accent" />
+        </div>
+      </div>
+
+      <!-- Itemized Totals -->
+      <div class="space-y-1.5 text-sm pt-1 border-t border-ink/10">
+        <div class="flex justify-between text-inkSoft">
+          <span>Item Subtotal</span>
+          <span id="order-subtotal">₹0</span>
+        </div>
+        <div class="flex justify-between text-inkSoft">
+          <span>GST (5%)</span>
+          <span id="order-gst">₹0</span>
+        </div>
+        <div class="flex justify-between font-bold text-base text-ink pt-1">
+          <span>Grand Total</span>
+          <span id="order-total" class="text-accent">₹0</span>
+        </div>
+      </div>
+
+      <button onclick="generateKitchenToken()" id="place-order-btn" class="w-full py-3.5 px-6 rounded-full bg-accent hover:bg-accentDark disabled:opacity-40 disabled:pointer-events-none text-white font-semibold text-sm shadow-md transition active:scale-95">
+        Generate Instant Kitchen Token
+      </button>
+    </div>
+  </aside>
+
+  <!-- ===================================================================== -->
+  <!-- 2. INSTANT KITCHEN TOKEN / ORDER SUMMARY MODAL                        -->
+  <!-- ===================================================================== -->
+  <div id="token-modal" class="fixed inset-0 z-[60] hidden items-center justify-center p-4 bg-ink/60 backdrop-blur-xs">
+    <div class="bg-cream text-ink rounded-[2rem] max-w-md w-full p-6 sm:p-8 shadow-2xl border border-ink/10 relative space-y-5">
+      <div class="text-center space-y-2">
+        <div class="w-12 h-12 rounded-2xl bg-sageLight text-sage mx-auto flex items-center justify-center">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+        </div>
+        <span class="text-xs font-bold uppercase tracking-widest text-sage">Order Token Ready</span>
+        <h3 class="font-editorial text-2xl sm:text-3xl font-bold">Token #<span id="token-number">BH-408</span></h3>
+        <p class="text-xs text-inkSoft" id="token-meta">Table: Walk-In · Est. Prep: 12–15 mins</p>
+      </div>
+
+      <!-- Ticket Summary Box -->
+      <div id="token-summary-box" class="rounded-2xl bg-creamWarm border border-dashed border-ink/25 p-4 text-xs font-mono space-y-1.5 max-h-56 overflow-y-auto">
+        <!-- Populated dynamically -->
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-2.5">
+        <button onclick="copyOrderSummary()" id="copy-token-btn" class="flex-1 py-3 px-4 rounded-full bg-sage text-white font-semibold text-xs sm:text-sm hover:opacity-95 transition">
+          Copy Summary for Counter / WhatsApp
+        </button>
+        <button onclick="closeTokenModal()" class="py-3 px-5 rounded-full bg-creamWarm hover:bg-creamDeep text-ink font-semibold text-xs sm:text-sm transition">
+          Done
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- 3. TABLE RESERVATION & GROUP HANGOUT MODAL                            -->
+  <!-- ===================================================================== -->
+  <div id="reserve-modal" class="fixed inset-0 z-[60] hidden items-center justify-center p-4 bg-ink/60 backdrop-blur-xs overflow-y-auto">
+    <div class="bg-cream text-ink rounded-[2rem] max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-ink/10 relative my-8">
+      <button onclick="closeReserveModal()" class="absolute top-5 right-5 p-2 rounded-full bg-creamWarm hover:bg-creamDeep text-ink transition" aria-label="Close modal">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+
+      <!-- Reservation Form View -->
+      <div id="reserve-form-view" class="space-y-5">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-widest text-accent">Instant Table Pass</span>
+          <h3 class="font-editorial text-2xl sm:text-3xl font-bold mt-1">Plan Your Visit</h3>
+          <p class="text-sm text-inkSoft mt-1">Reserve a table or group hangout spot at Bhojanam.</p>
+        </div>
+
+        <form onsubmit="submitReservation(event)" class="space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-inkSoft mb-1.5">Your Name *</label>
+              <input id="res-name" type="text" required placeholder="e.g. Aarav Sharma" class="w-full px-3.5 py-2.5 rounded-xl bg-creamWarm border border-ink/15 text-sm focus:outline-none focus:border-accent" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-inkSoft mb-1.5">Party Size</label>
+              <select id="res-guests" class="w-full px-3.5 py-2.5 rounded-xl bg-creamWarm border border-ink/15 text-sm focus:outline-none focus:border-accent">
+                <option value="2 Guests">2 Guests (Cozy Duo)</option>
+                <option value="4 Guests" selected>4 Guests (Family / Friends)</option>
+                <option value="6 Guests">6 Guests (Group Table)</option>
+                <option value="8 Guests">8 Guests (Large Gathering)</option>
+                <option value="12+ Guests">12+ Guests (Celebration Hangout)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-inkSoft mb-1.5">Date *</label>
+              <input id="res-date" type="date" required class="w-full px-3.5 py-2.5 rounded-xl bg-creamWarm border border-ink/15 text-sm focus:outline-none focus:border-accent" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-inkSoft mb-1.5">Time Slot</label>
+              <select id="res-slot" class="w-full px-3.5 py-2.5 rounded-xl bg-creamWarm border border-ink/15 text-sm focus:outline-none focus:border-accent">
+                <option value="Morning Chai (9:30 AM – 11:30 AM)">Morning Chai (9:30 AM)</option>
+                <option value="Lunch Rush (1:00 PM – 3:00 PM)">Lunch Rush (1:00 PM)</option>
+                <option value="Evening Snacks (5:00 PM – 7:00 PM)" selected>Evening Snacks (5:00 PM)</option>
+                <option value="Dinner (8:00 PM – 10:00 PM)">Dinner (8:00 PM)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Seating Vibe Selection -->
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-inkSoft mb-2">Preferred Seating Vibe</label>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+              <label class="cursor-pointer">
+                <input type="radio" name="seating-vibe" value="Cozy Corner Booth" class="peer sr-only" checked />
+                <div class="p-3 rounded-xl border border-ink/15 bg-creamWarm peer-checked:border-accent peer-checked:bg-accent/10 transition text-center">
+                  <p class="text-xs font-bold text-ink">Cozy Corner Booth</p>
+                  <p class="text-[11px] text-inkSoft mt-0.5">Warm &amp; intimate</p>
+                </div>
+              </label>
+              <label class="cursor-pointer">
+                <input type="radio" name="seating-vibe" value="Central Food Court Table" class="peer sr-only" />
+                <div class="p-3 rounded-xl border border-ink/15 bg-creamWarm peer-checked:border-accent peer-checked:bg-accent/10 transition text-center">
+                  <p class="text-xs font-bold text-ink">Central Court Table</p>
+                  <p class="text-[11px] text-inkSoft mt-0.5">Lively &amp; spacious</p>
+                </div>
+              </label>
+              <label class="cursor-pointer">
+                <input type="radio" name="seating-vibe" value="Patio / Window Seat" class="peer sr-only" />
+                <div class="p-3 rounded-xl border border-ink/15 bg-creamWarm peer-checked:border-accent peer-checked:bg-accent/10 transition text-center">
+                  <p class="text-xs font-bold text-ink">Patio / Window Seat</p>
+                  <p class="text-[11px] text-inkSoft mt-0.5">Sunlit &amp; breezy</p>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <button type="submit" class="w-full py-3.5 px-6 rounded-full bg-ink hover:bg-accent text-cream font-semibold text-sm sm:text-base shadow-md transition active:scale-95">
+            Confirm Instant Booking Pass
+          </button>
+        </form>
+      </div>
+
+      <!-- Reservation Confirmation Pass View -->
+      <div id="reserve-pass-view" class="hidden space-y-5 text-center">
+        <div class="w-14 h-14 rounded-2xl bg-sageLight text-sage mx-auto flex items-center justify-center">
+          <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <div>
+          <span class="text-xs font-bold uppercase tracking-widest text-sage">Confirmed Booking Pass</span>
+          <h3 class="font-editorial text-2xl sm:text-3xl font-bold mt-1">We’re Ready for You!</h3>
+          <p class="text-sm text-inkSoft mt-1">Show this confirmation code at the host desk upon arrival.</p>
+        </div>
+
+        <div class="rounded-2xl bg-creamWarm border border-dashed border-ink/25 p-5 text-left space-y-2.5">
+          <div class="flex items-center justify-between border-b border-ink/10 pb-2">
+            <span class="text-xs uppercase tracking-wider text-inkSoft font-bold">Pass Code</span>
+            <span id="pass-code" class="font-mono font-bold text-base text-accent">BHJ-8924</span>
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-xs sm:text-sm">
+            <div><span class="text-inkSoft">Guest:</span> <strong id="pass-name"></strong></div>
+            <div><span class="text-inkSoft">Party:</span> <strong id="pass-guests"></strong></div>
+            <div><span class="text-inkSoft">Date:</span> <strong id="pass-date"></strong></div>
+            <div><span class="text-inkSoft">Vibe:</span> <strong id="pass-vibe"></strong></div>
+          </div>
+          <div class="text-xs sm:text-sm pt-1">
+            <span class="text-inkSoft">Slot:</span> <strong id="pass-slot"></strong>
+          </div>
+        </div>
+
+        <div class="flex gap-2.5">
+          <button onclick="resetReserveModal()" class="flex-1 py-3 rounded-full bg-creamWarm hover:bg-creamDeep text-ink text-xs sm:text-sm font-semibold transition">
+            Modify Booking
+          </button>
+          <button onclick="closeReserveModal()" class="flex-1 py-3 rounded-full bg-ink text-cream text-xs sm:text-sm font-semibold hover:bg-accent transition">
+            Done
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- 4. HIGH-RES ZOOMABLE LIGHTBOX MODAL (MENU BOARDS & GALLERY)           -->
+  <!-- ===================================================================== -->
+  <div id="lightbox-modal" class="fixed inset-0 z-[70] hidden flex-col bg-ink/95 backdrop-blur-md text-cream">
+    <div class="flex items-center justify-between px-4 sm:px-8 py-4 border-b border-cream/10">
+      <div>
+        <h3 id="lightbox-title" class="font-editorial text-lg sm:text-xl font-bold">Menu Board</h3>
+        <p id="lightbox-caption" class="text-xs text-cream/70">Click image to toggle zoom</p>
+      </div>
+      <div class="flex items-center gap-2.5">
+        <button onclick="toggleLightboxZoom()" class="px-3.5 py-2 rounded-full bg-cream/10 hover:bg-cream/20 text-xs font-semibold transition">
+          Toggle Zoom
+        </button>
+        <button onclick="closeLightbox()" class="p-2.5 rounded-full bg-cream/10 hover:bg-accent text-cream transition" aria-label="Close lightbox">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="flex-1 overflow-auto flex items-center justify-center p-4 sm:p-8" onclick="if(event.target === this) closeLightbox()">
+      <img
+        id="lightbox-img"
+        src=""
+        alt="Expanded Bhojanam View"
+        onclick="toggleLightboxZoom()"
+        class="lightbox-zoom max-h-[82vh] max-w-full rounded-2xl shadow-2xl object-contain select-none"
+      />
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- 5. VIBE & PEAK HOURS MODAL                                            -->
+  <!-- ===================================================================== -->
+  <div id="hours-modal" class="fixed inset-0 z-[60] hidden items-center justify-center p-4 bg-ink/60 backdrop-blur-xs">
+    <div class="bg-cream text-ink rounded-[2rem] max-w-md w-full p-6 sm:p-7 shadow-2xl border border-ink/10 space-y-5">
+      <div class="flex items-center justify-between">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-widest text-sage">Live Cafe Pulse</span>
+          <h3 class="font-editorial text-2xl font-bold mt-0.5">Hours &amp; Crowd Guide</h3>
+        </div>
+        <button onclick="closeHoursModal()" class="p-2 rounded-full bg-creamWarm hover:bg-creamDeep text-ink transition">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="p-4 rounded-2xl bg-sageLight border border-sage/20 flex items-center justify-between">
+        <div>
+          <p class="text-xs font-bold uppercase text-sage">Current Status</p>
+          <p id="modal-live-status" class="font-editorial text-lg font-bold text-ink mt-0.5">Open · Warm &amp; Welcoming</p>
+        </div>
+        <span class="px-3 py-1 rounded-full bg-sage text-white text-xs font-semibold">9 AM – 10:30 PM</span>
+      </div>
+
+      <!-- Visual Crowd Bar Chart -->
+      <div class="space-y-2.5">
+        <p class="text-xs font-bold uppercase tracking-wider text-inkSoft">Typical Daily Vibe</p>
+        <div class="space-y-2 text-xs">
+          <div class="flex items-center gap-3">
+            <span class="w-24 text-inkSoft">10 AM – 12 PM</span>
+            <div class="flex-1 h-2.5 rounded-full bg-creamWarm overflow-hidden"><div class="h-full bg-sage w-[35%] rounded-full"></div></div>
+            <span class="w-16 text-right font-medium">Calm Chai</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="w-24 text-inkSoft">1 PM – 3 PM</span>
+            <div class="flex-1 h-2.5 rounded-full bg-creamWarm overflow-hidden"><div class="h-full bg-accent w-[78%] rounded-full"></div></div>
+            <span class="w-16 text-right font-medium">Lunch Buzz</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="w-24 text-inkSoft">5 PM – 7 PM</span>
+            <div class="flex-1 h-2.5 rounded-full bg-creamWarm overflow-hidden"><div class="h-full bg-accent w-[88%] rounded-full"></div></div>
+            <span class="w-16 text-right font-medium">Chaat Peak</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="w-24 text-inkSoft">8 PM – 10 PM</span>
+            <div class="flex-1 h-2.5 rounded-full bg-creamWarm overflow-hidden"><div class="h-full bg-sage w-[65%] rounded-full"></div></div>
+            <span class="w-16 text-right font-medium">Family Dinner</span>
+          </div>
+        </div>
+      </div>
+
+      <button onclick="closeHoursModal(); openReserveModal();" class="w-full py-3 rounded-full bg-ink hover:bg-accent text-cream text-sm font-semibold transition">
+        Reserve Ahead for Peak Hours
+      </button>
+    </div>
+  </div>
+
+  <!-- Toast Notification Banner -->
+  <div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-[80] hidden items-center gap-2.5 px-5 py-3 rounded-full bg-ink text-cream text-sm font-medium shadow-xl border border-cream/15">
+    <span class="w-2 h-2 rounded-full bg-accent"></span>
+    <span id="toast-msg">Added to table tray</span>
+  </div>
+
+  <script>
+    // =========================================================================
+    // EMBEDDED HIGH-CRAFT WARM EDITORIAL PHOTOGRAPHY & MENU BOARD ASSETS
+    // =========================================================================
+    // Note: Clean SVG data-URI illustrations/boards with crisp typography & warm photography styling
+    // so every asset renders reliably offline with zero broken links.
+    const EMBEDDED_ASSETS = {
+      hero: "data:image/svg+xml;utf8," + encodeURIComponent(`
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900">
+          <defs>
+            <linearGradient id="wall" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#3b2618"/>
+              <stop offset="55%" stop-color="#5a3922"/>
+              <stop offset="100%" stop-color="#2a1a10"/>
+            </linearGradient>
+            <radialGradient id="lampGlow" cx="50%" cy="35%" r="55%">
+              <stop offset="0%" stop-color="#ffcf7d" stop-opacity="0.72"/>
+              <stop offset="45%" stop-color="#e97827" stop-opacity="0.28"/>
+              <stop offset="100%" stop-color="#2a1a10" stop-opacity="0"/>
+            </radialGradient>
+            <linearGradient id="woodTable" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#a86434"/>
+              <stop offset="100%" stop-color="#693919"/>
+            </linearGradient>
+          </defs>
+          <rect width="1200" height="900" fill="url(#wall)"/>
+          <!-- Brick & Timber Architectural Arches -->
+          <rect x="70" y="90" width="320" height="580" rx="160" fill="#2c1c12" stroke="#8c542d" stroke-width="6"/>
+          <rect x="440" y="90" width="320" height="580" rx="160" fill="#2c1c12" stroke="#8c542d" stroke-width="6"/>
+          <rect x="810" y="90" width="320" height="580" rx="160" fill="#2c1c12" stroke="#8c542d" stroke-width="6"/>
+          <!-- Indoor Lush Sage Greenery Planters -->
+          <ellipse cx="230" cy="540" rx="95" ry="55" fill="#425b3d"/>
+          <ellipse cx="600" cy="540" rx="105" ry="60" fill="#4d6b47"/>
+          <ellipse cx="970" cy="540" rx="95" ry="55" fill="#425b3d"/>
+          <!-- Pendant Brass Lamps -->
+          <line x1="300" y1="0" x2="300" y2="230" stroke="#d9a05b" stroke-width="4"/>
+          <path d="M245 230 Q300 185 355 230 Z" fill="#e97827"/>
+          <circle cx="300" cy="242" r="14" fill="#fff3d1"/>
+          <line x1="600" y1="0" x2="600" y2="200" stroke="#d9a05b" stroke-width="4"/>
+          <path d="M535 200 Q600 150 665 200 Z" fill="#e97827"/>
+          <circle cx="600" cy="214" r="16" fill="#fff3d1"/>
+          <line x1="900" y1="0" x2="900" y2="230" stroke="#d9a05b" stroke-width="4"/>
+          <path d="M845 230 Q900 185 955 230 Z" fill="#e97827"/>
+          <circle cx="900" cy="242" r="14" fill="#fff3d1"/>
+          <rect width="1200" height="900" fill="url(#lampGlow)"/>
+          <!-- Cozy Booths & Dining Tables -->
+          <rect x="0" y="620" width="1200" height="280" fill="#24160d"/>
+          <rect x="110" y="575" width="420" height="195" rx="28" fill="#8b4513"/>
+          <rect x="130" y="555" width="380" height="42" rx="14" fill="url(#woodTable)"/>
+          <rect x="670" y="575" width="420" height="195" rx="28" fill="#8b4513"/>
+          <rect x="690" y="555" width="380" height="42" rx="14" fill="url(#woodTable)"/>
+          <!-- Copper Serving Bowls & Kulhad Chai on Table -->
+          <ellipse cx="260" cy="548" rx="44" ry="16" fill="#e97827"/>
+          <ellipse cx="375" cy="548" rx="38" ry="14" fill="#d99b52"/>
+          <rect x="790" y="522" width="26" height="34" rx="6" fill="#c96a2b"/>
+          <rect x="835" y="522" width="26" height="34" rx="6" fill="#c96a2b"/>
+          <text x="600" y="395" text-anchor="middle" font-family="Georgia, serif" font-size="54" fill="#fff9f0" opacity="0.92" letter-spacing="4">BHOJANAM</text>
+          <text x="600" y="438" text-anchor="middle" font-family="sans-serif" font-size="20" fill="#ffcf7d" letter-spacing="8">CAFE &amp; FOOD COURT</text>
+        </svg>
+      `),
+      about: "data:image/svg+xml;utf8," + encodeURIComponent(`
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 960">
+          <defs>
+            <linearGradient id="bgAbout" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#f5ebdc"/>
+              <stop offset="100%" stop-color="#e3ceb2"/>
+            </linearGradient>
+          </defs>
+          <rect width="900" height="960" fill="url(#bgAbout)"/>
+          <!-- Sunlit Arched Window -->
+          <path d="M160 660 L160 280 A290 290 0 0 1 740 280 L740 660 Z" fill="#fff9f0" stroke="#7d4e2d" stroke-width="14"/>
+          <line x1="450" y1="40" x2="450" y2="660" stroke="#7d4e2d" stroke-width="10"/>
+          <line x1="160" y1="360" x2="740" y2="360" stroke="#7d4e2d" stroke-width="10"/>
+          <!-- Botanical Terracotta Pots -->
+          <path d="M235 660 L255 575 L335 575 L355 660 Z" fill="#c95e14"/>
+          <circle cx="295" cy="525" r="58" fill="#425b3d"/>
+          <circle cx="260" cy="545" r="42" fill="#567550"/>
+          <path d="M555 660 L575 585 L645 585 L665 660 Z" fill="#c95e14"/>
+          <circle cx="610" cy="535" r="52" fill="#425b3d"/>
+          <!-- Timber Cafe Table & Two Chairs -->
+          <rect x="240" y="695" width="420" height="28" rx="14" fill="#6b3e1e"/>
+          <rect x="435" y="723" width="30" height="175" fill="#4a2a14"/>
+          <ellipse cx="450" cy="898" rx="120" ry="18" fill="#3a200e"/>
+          <!-- Tea Kettle & Brass Plates -->
+          <ellipse cx="360" cy="686" rx="46" ry="13" fill="#e97827"/>
+          <ellipse cx="520" cy="686" rx="54" ry="15" fill="#d49b4b"/>
+          <text x="450" y="185" text-anchor="middle" font-family="Georgia, serif" font-size="34" fill="#425b3d" font-weight="bold">Sunlit Corner Nook</text>
+        </svg>
+      `),
+      menu1: "data:image/svg+xml;utf8," + encodeURIComponent(`
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1200">
+          <rect width="900" height="1200" fill="#231913"/>
+          <rect x="28" y="28" width="844" height="1144" rx="28" fill="#2b1f18" stroke="#e97827" stroke-width="4"/>
+          <rect x="46" y="46" width="808" height="1108" rx="20" fill="none" stroke="#fff9f0" stroke-opacity="0.2" stroke-width="2"/>
+          <!-- Header -->
+          <circle cx="450" cy="115" r="34" fill="#e97827"/>
+          <text x="450" y="128" text-anchor="middle" font-family="Georgia, serif" font-size="36" fill="#fff9f0" font-weight="bold">भ</text>
+          <text x="450" y="195" text-anchor="middle" font-family="Georgia, serif" font-size="48" fill="#fff9f0" font-weight="bold">From the Kitchen</text>
+          <text x="450" y="232" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#ffcf7d" letter-spacing="6">BHOJANAM SIGNATURE MAINS &amp; BREADS</text>
+          <line x1="120" y1="262" x2="780" y2="262" stroke="#e97827" stroke-width="2"/>
+
+          <!-- Mains Section -->
+          <text x="95" y="320" font-family="Georgia, serif" font-size="28" fill="#e97827" font-weight="bold">KADHAI &amp; TANDOOR CURRIES</text>
+          
+          <g font-family="sans-serif" fill="#fff9f0">
+            <text x="95" y="375" font-size="24" font-weight="bold">Shahi Paneer</text>
+            <text x="805" y="375" text-anchor="end" font-size="24" fill="#ffcf7d" font-weight="bold">₹240</text>
+            <text x="95" y="405" font-size="16" fill="#d6c5b3">Velvety cashew-tomato gravy with soft cottage cheese cubes</text>
+
+            <text x="95" y="465" font-size="24" font-weight="bold">Kadhai Paneer</text>
+            <text x="805" y="465" text-anchor="end" font-size="24" fill="#ffcf7d" font-weight="bold">₹250</text>
+            <text x="95" y="495" font-size="16" fill="#d6c5b3">Char-grilled bell peppers, crushed coriander &amp; bold masala</text>
+
+            <text x="95" y="555" font-size="24" font-weight="bold">Dal Makhani (Slow-Simmered)</text>
+            <text x="805" y="555" text-anchor="end" font-size="24" fill="#ffcf7d" font-weight="bold">₹210</text>
+            <text x="95" y="585" font-size="16" fill="#d6c5b3">24-hour black lentils finished with white butter &amp; cream</text>
+
+            <text x="95" y="645" font-size="24" font-weight="bold">Paneer Butter Masala</text>
+            <text x="805" y="645" text-anchor="end" font-size="24" fill="#ffcf7d" font-weight="bold">₹245</text>
+            <text x="95" y="675" font-size="16" fill="#d6c5b3">Rich fenugreek-scented makhani sauce with tender paneer</text>
+          </g>
+
+          <line x1="95" y1="720" x2="805" y2="720" stroke="#fff9f0" stroke-opacity="0.2" stroke-width="2"/>
+
+          <!-- Tandoori Breads -->
+          <text x="95" y="775" font-family="Georgia, serif" font-size="28" fill="#8eb884" font-weight="bold">FRESH OFF THE TANDOOR</text>
+
+          <g font-family="sans-serif" fill="#fff9f0">
+            <text x="95" y="830" font-size="24" font-weight="bold">Butter Naan</text>
+            <text x="805" y="830" text-anchor="end" font-size="24" fill="#ffcf7d" font-weight="bold">₹55</text>
+            <text x="95" y="858" font-size="16" fill="#d6c5b3">Soft leavened clay-oven flatbread brushed with cultured butter</text>
+
+            <text x="95" y="915" font-size="24" font-weight="bold">Garlic &amp; Coriander Naan</text>
+            <text x="805" y="915" text-anchor="end" font-size="24" fill="#ffcf7d" font-weight="bold">₹70</text>
+            <text x="95" y="943" font-size="16" fill="#d6c5b3">Roasted minced garlic, fresh cilantro &amp; melted ghee</text>
+
+            <text x="95" y="1000" font-size="24" font-weight="bold">Amritsari Stuffed Kulcha</text>
+            <text x="805" y="1000" text-anchor="end" font-size="24" fill="#ffcf7d" font-weight="bold">₹95</text>
+            <text x="95" y="1028" font-size="16" fill="#d6c5b3">Crisp layered kulcha stuffed with spiced potato, paneer &amp; herbs</text>
+          </g>
+
+          <text x="450" y="1115" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#d6c5b3">100% Pure Vegetarian Kitchen · Prepared Fresh Upon Order</text>
+        </svg>
+      `),
+      menu2: "data:image/svg+xml;utf8," + encodeURIComponent(`
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1200">
+          <rect width="900" height="1200" fill="#f5ebdc"/>
+          <rect x="28" y="28" width="844" height="1144" rx="28" fill="#fff9f0" stroke="#425b3d" stroke-width="5"/>
+          <rect x="46" y="46" width="808" height="1108" rx="20" fill="none" stroke="#201812" stroke-opacity="0.15" stroke-width="2"/>
+          <!-- Header -->
+          <circle cx="450" cy="115" r="34" fill="#425b3d"/>
+          <text x="450" y="128" text-anchor="middle" font-family="Georgia, serif" font-size="36" fill="#fff9f0" font-weight="bold">भ</text>
+          <text x="450" y="195" text-anchor="middle" font-family="Georgia, serif" font-size="48" fill="#201812" font-weight="bold">Snacks &amp; Starters</text>
+          <text x="450" y="232" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#e97827" font-weight="bold" letter-spacing="6">EVENING CHAAT, PAKORAS &amp; CHAI BAR</text>
+          <line x1="120" y1="262" x2="780" y2="262" stroke="#425b3d" stroke-width="2"/>
+
+          <!-- Starters -->
+          <text x="95" y="320" font-family="Georgia, serif" font-size="28" fill="#425b3d" font-weight="bold">TANDOORI &amp; CRISPY STARTERS</text>
+          
+          <g font-family="sans-serif" fill="#201812">
+            <text x="95" y="375" font-size="24" font-weight="bold">Smoky Paneer Tikka (8 pcs)</text>
+            <text x="805" y="375" text-anchor="end" font-size="24" fill="#e97827" font-weight="bold">₹220</text>
+            <text x="95" y="405" font-size="16" fill="#524439">Yogurt &amp; Kashmiri chilli marinated paneer roasted over charcoal</text>
+
+            <text x="95" y="465" font-size="24" font-weight="bold">Crispy Veg Pakora Platter</text>
+            <text x="805" y="465" text-anchor="end" font-size="24" fill="#e97827" font-weight="bold">₹130</text>
+            <text x="95" y="495" font-size="16" fill="#524439">Golden gram-flour fritters of onion, spinach, potato &amp; mint chutney</text>
+
+            <text x="95" y="555" font-size="24" font-weight="bold">Stuffed Paneer Pakora</text>
+            <text x="805" y="555" text-anchor="end" font-size="24" fill="#e97827" font-weight="bold">₹160</text>
+            <text x="95" y="585" font-size="16" fill="#524439">Thick cottage cheese slabs layered with green chutney &amp; chaat masala</text>
+
+            <text x="95" y="645" font-size="24" font-weight="bold">Dilli Aloo Tikki Chaat</text>
+            <text x="805" y="645" text-anchor="end" font-size="24" fill="#e97827" font-weight="bold">₹120</text>
+            <text x="95" y="675" font-size="16" fill="#524439">Crisp potato patties topped with whipped dahi, saunth &amp; pomegranate</text>
+          </g>
+
+          <line x1="95" y1="720" x2="805" y2="720" stroke="#201812" stroke-opacity="0.15" stroke-width="2"/>
+
+          <!-- Chai & Beverages -->
+          <text x="95" y="775" font-family="Georgia, serif" font-size="28" fill="#e97827" font-weight="bold">CHAI &amp; CAFE BEVERAGES</text>
+
+          <g font-family="sans-serif" fill="#201812">
+            <text x="95" y="830" font-size="24" font-weight="bold">Adrak Elaichi Masala Chai</text>
+            <text x="805" y="830" text-anchor="end" font-size="24" fill="#425b3d" font-weight="bold">₹45</text>
+            <text x="95" y="858" font-size="16" fill="#524439">Freshly crushed ginger, green cardamom &amp; Assam tea served in kulhad</text>
+
+            <text x="95" y="915" font-size="24" font-weight="bold">Signature Thick Cold Coffee</text>
+            <text x="805" y="915" text-anchor="end" font-size="24" fill="#425b3d" font-weight="bold">₹115</text>
+            <text x="95" y="943" font-size="16" fill="#524439">Creamy blended espresso topped with cocoa dust &amp; vanilla bean</text>
+
+            <text x="95" y="1000" font-size="24" font-weight="bold">Fresh Lime &amp; Mint Shikanji</text>
+            <text x="805" y="1000" text-anchor="end" font-size="24" fill="#425b3d" font-weight="bold">₹75</text>
+            <text x="95" y="1028" font-size="16" fill="#524439">Roasted cumin, black salt, garden mint &amp; sparkling chilled lime</text>
+          </g>
+
+          <text x="450" y="1115" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#524439">Ask our counter for Jain &amp; custom spice preparations</text>
+        </svg>
+      `),
+      gallery: "data:image/svg+xml;utf8," + encodeURIComponent(`
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 825">
+          <defs>
+            <linearGradient id="eveWall" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#261911"/>
+              <stop offset="100%" stop-color="#452b1b"/>
+            </linearGradient>
+            <radialGradient id="counterGlow" cx="50%" cy="45%" r="50%">
+              <stop offset="0%" stop-color="#ffb85c" stop-opacity="0.65"/>
+              <stop offset="100%" stop-color="#261911" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <rect width="1200" height="825" fill="url(#eveWall)"/>
+          <rect width="1200" height="825" fill="url(#counterGlow)"/>
+          <!-- Live Food Court Counter Canopy -->
+          <rect x="140" y="120" width="920" height="110" rx="22" fill="#e97827"/>
+          <text x="600" y="188" text-anchor="middle" font-family="Georgia, serif" font-size="44" fill="#fff9f0" font-weight="bold" letter-spacing="5">BHOJANAM LIVE KITCHEN</text>
+          <!-- Menu Chalkboards Behind Counter -->
+          <rect x="210" y="265" width="220" height="240" rx="14" fill="#1e1510" stroke="#d9a05b" stroke-width="3"/>
+          <rect x="490" y="265" width="220" height="240" rx="14" fill="#1e1510" stroke="#d9a05b" stroke-width="3"/>
+          <rect x="770" y="265" width="220" height="240" rx="14" fill="#1e1510" stroke="#d9a05b" stroke-width="3"/>
+          <!-- Timber Counter Front -->
+          <rect x="110" y="535" width="980" height="210" rx="24" fill="#7d4722"/>
+          <rect x="95" y="515" width="1010" height="32" rx="14" fill="#d49b54"/>
+          <!-- Warm Ambient String Lights -->
+          <path d="M120 95 Q360 155 600 95 Q840 155 1080 95" fill="none" stroke="#ffcf7d" stroke-width="3"/>
+          <circle cx="240" cy="122" r="8" fill="#fff6d6"/>
+          <circle cx="360" cy="126" r="8" fill="#fff6d6"/>
+          <circle cx="480" cy="112" r="8" fill="#fff6d6"/>
+          <circle cx="720" cy="112" r="8" fill="#fff6d6"/>
+          <circle cx="840" cy="126" r="8" fill="#fff6d6"/>
+          <circle cx="960" cy="122" r="8" fill="#fff6d6"/>
+        </svg>
+      `)
+    };
+
+    // Hydrate all images immediately on load
+    document.querySelectorAll('img[data-asset]').forEach(img => {
+      const key = img.getAttribute('data-asset');
+      if (EMBEDDED_ASSETS[key]) {
+        img.src = EMBEDDED_ASSETS[key];
+      }
+    });
+
+    // =========================================================================
+    // INTERACTIVE DIGITAL MENU DATA (INSPIRED BY USER'S MENU BOARDS)
+    // =========================================================================
+    const MENU_ITEMS = [
+      {
+        id: 'paneer-tikka',
+        name: 'Smoky Paneer Tikka',
+        category: 'snacks',
+        board: 'Board 2 · Snacks & Starters',
+        price: 220,
+        spice: 2,
+        tag: 'Chef Special',
+        desc: 'Charcoal-roasted cottage cheese cubes marinated in hung curd, Kashmiri chilli, and roasted gram flour with mint chutney.'
+      },
+      {
+        id: 'shahi-paneer',
+        name: 'Shahi Paneer',
+        category: 'kitchen',
+        board: 'Board 1 · From the Kitchen',
+        price: 240,
+        spice: 1,
+        tag: 'Bestseller',
+        desc: 'Silky cashew, saffron, and tomato gravy embracing soft malai paneer cubes with a hint of green cardamom.'
+      },
+      {
+        id: 'kadhai-paneer',
+        name: 'Kadhai Paneer',
+        category: 'kitchen',
+        board: 'Board 1 · From the Kitchen',
+        price: 250,
+        spice: 3,
+        tag: 'Spicy Favourite',
+        desc: 'Wok-tossed paneer with crisp bell peppers, onions, freshly pounded coriander seeds, and bold tomato masala.'
+      },
+      {
+        id: 'dal-makhani',
+        name: 'Dal Makhani',
+        category: 'kitchen',
+        board: 'Board 1 · From the Kitchen',
+        price: 210,
+        spice: 1,
+        tag: '24-Hr Slow Cooked',
+        desc: 'Whole black urad lentils simmered overnight over low embers, finished with white butter, ginger juliennes, and cream.'
+      },
+      {
+        id: 'butter-naan',
+        name: 'Butter Naan',
+        category: 'breads',
+        board: 'Board 1 · From the Kitchen',
+        price: 55,
+        spice: 0,
+        tag: 'Tandoor Fresh',
+        desc: 'Pillow-soft leavened flatbread baked on the clay tandoor wall and generously brushed with melted butter.'
+      },
+      {
+        id: 'garlic-naan',
+        name: 'Garlic Naan',
+        category: 'breads',
+        board: 'Board 1 · From the Kitchen',
+        price: 70,
+        spice: 1,
+        tag: 'Most Ordered',
+        desc: 'Tandoori naan topped with golden roasted garlic, fresh coriander leaves, and a drizzle of pure desi ghee.'
+      },
+      {
+        id: 'stuffed-kulcha',
+        name: 'Stuffed Kulcha',
+        category: 'breads',
+        board: 'Board 1 · From the Kitchen',
+        price: 95,
+        spice: 2,
+        tag: 'Amritsari Style',
+        desc: 'Flaky, golden-crusted tandoori kulcha stuffed with spiced mashed potatoes, crumbled paneer, and crushed pomegranate seeds.'
+      },
+      {
+        id: 'veg-pakora',
+        name: 'Crispy Veg Pakora',
+        category: 'snacks',
+        board: 'Board 2 · Snacks & Starters',
+        price: 130,
+        spice: 2,
+        tag: 'Chai Companion',
+        desc: 'Assorted crisp gram-flour fritters of onion rings, baby spinach, and spiced potato served piping hot with green chutney.'
+      },
+      {
+        id: 'aloo-tikki-chaat',
+        name: 'Aloo Tikki Chaat',
+        category: 'snacks',
+        board: 'Board 2 · Snacks & Starters',
+        price: 120,
+        spice: 2,
+        tag: 'Street Classic',
+        desc: 'Crisp-griddled potato tikkis crowned with chilled beaten yogurt, tamarind-date saunth, mint chutney, and sev.'
+      },
+      {
+        id: 'paneer-pakora',
+        name: 'Paneer Pakora',
+        category: 'snacks',
+        board: 'Board 2 · Snacks & Starters',
+        price: 160,
+        spice: 2,
+        tag: 'Crispy & Soft',
+        desc: 'Thick slices of fresh cottage cheese sandwiched with tangy herb chutney, dipped in spiced besan batter and fried golden.'
+      },
+      {
+        id: 'masala-chai',
+        name: 'Masala Chai',
+        category: 'beverages',
+        board: 'Board 2 · Snacks & Starters',
+        price: 45,
+        spice: 1,
+        tag: 'Kulhad Brew',
+        desc: 'Strong Assam tea brewed with freshly pounded ginger, green cardamom pods, and cloves, served in an earthy clay kulhad.'
+      },
+      {
+        id: 'cold-coffee',
+        name: 'Cold Coffee',
+        category: 'beverages',
+        board: 'Board 2 · Snacks & Starters',
+        price: 115,
+        spice: 0,
+        tag: 'Cafe Chiller',
+        desc: 'Rich, frothy blended iced coffee crafted with dark roast espresso, chilled creamy milk, and a dusting of cocoa.'
+      }
+    ];
+
+    let activeCategory = 'all';
+    let cart = {}; // { itemId: quantity }
+
+    // Render Spice Indicator
+    function getSpiceBadge(level) {
+      if (level === 0) return '<span class="text-[11px] text-inkSoft bg-creamWarm px-2 py-0.5 rounded-full">Mild / Sweet</span>';
+      const chillies = '🌶️'.repeat(level);
+      const labels = ['', 'Gentle Spice', 'Medium Spice', 'Bold & Spicy'];
+      return `<span class="text-[11px] text-accentDark bg-accent/10 px-2 py-0.5 rounded-full font-medium">${chillies} ${labels[level]}</span>`;
+    }
+
+    // Render Menu Grid
+    function renderMenuGrid() {
+      const grid = document.getElementById('menu-grid');
+      const searchVal = (document.getElementById('menu-search')?.value || '').toLowerCase().trim();
+
+      const filtered = MENU_ITEMS.filter(item => {
+        const matchesCat = activeCategory === 'all' || item.category === activeCategory;
+        const matchesSearch = !searchVal ||
+          item.name.toLowerCase().includes(searchVal) ||
+          item.desc.toLowerCase().includes(searchVal) ||
+          item.tag.toLowerCase().includes(searchVal);
+        return matchesCat && matchesSearch;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full text-center py-12 px-4 rounded-3xl bg-creamWarm border border-ink/10">
+            <p class="font-editorial text-xl font-bold text-ink">No matching dishes found</p>
+            <p class="text-sm text-inkSoft mt-1">Try clearing your search or switching to "All Favourites".</p>
+            <button onclick="document.getElementById('menu-search').value=''; filterMenu('all');" class="mt-4 px-5 py-2 rounded-full bg-ink text-cream text-xs font-semibold">Reset Filters</button>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = filtered.map(item => {
+        const qty = cart[item.id] || 0;
+        return `
+          <div class="rounded-3xl bg-creamWarm/75 hover:bg-creamWarm border border-ink/10 p-5 sm:p-6 flex flex-col justify-between transition-all duration-300 shadow-xs hover:shadow-card">
+            <div>
+              <!-- Top Row: Pure Veg Indicator + Tag + Spice -->
+              <div class="flex items-center justify-between gap-2 mb-3">
+                <div class="flex items-center gap-2">
+                  <!-- Pure Veg Symbol -->
+                  <span class="w-4 h-4 rounded-xs border-2 border-sage flex items-center justify-center shrink-0" title="100% Vegetarian">
+                    <span class="w-2 h-2 rounded-full bg-sage"></span>
+                  </span>
+                  <span class="text-[11px] font-bold uppercase tracking-wider text-sage">${item.tag}</span>
+                </div>
+                ${getSpiceBadge(item.spice)}
+              </div>
+
+              <!-- Title & Price -->
+              <div class="flex items-baseline justify-between gap-3">
+                <h3 class="font-editorial text-xl font-bold text-ink">${item.name}</h3>
+                <span class="font-sans text-lg font-bold text-ink shrink-0">₹${item.price}</span>
+              </div>
+
+              <p class="text-xs sm:text-sm text-inkSoft mt-2 leading-relaxed">${item.desc}</p>
+            </div>
+
+            <!-- Bottom Row: Board Reference + Add to Table Order Controls -->
+            <div class="mt-5 pt-4 border-t border-ink/10 flex items-center justify-between gap-3">
+              <span class="text-[11px] text-inkSoft/80 font-medium">${item.board}</span>
+
+              ${qty === 0 ? `
+                <button onclick="updateCart('${item.id}', 1)" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-ink hover:bg-accent text-cream text-xs font-semibold transition active:scale-95">
+                  <span>+ Add to Table Order</span>
+                </button>
+              ` : `
+                <div class="inline-flex items-center gap-2 bg-accent text-white rounded-full px-2 py-1 shadow-xs">
+                  <button onclick="updateCart('${item.id}', -1)" class="w-6 h-6 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center font-bold text-sm transition" aria-label="Decrease quantity">−</button>
+                  <span class="text-xs font-bold min-w-[18px] text-center">${qty}</span>
+                  <button onclick="updateCart('${item.id}', 1)" class="w-6 h-6 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center font-bold text-sm transition" aria-label="Increase quantity">+</button>
+                </div>
+              `}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function filterMenu(category) {
+      activeCategory = category;
+      document.querySelectorAll('.cat-btn').forEach(btn => {
+        if (btn.getAttribute('data-cat') === category) {
+          btn.classList.remove('bg-creamWarm', 'text-inkSoft');
+          btn.classList.add('bg-accent', 'text-white');
+        } else {
+          btn.classList.add('bg-creamWarm', 'text-inkSoft');
+          btn.classList.remove('bg-accent', 'text-white');
+        }
+      });
+      renderMenuGrid();
+    }
+
+    function switchMenuView(view) {
+      const interactiveEl = document.getElementById('view-interactive');
+      const boardsEl = document.getElementById('view-boards');
+      const tabInt = document.getElementById('tab-interactive');
+      const tabBrd = document.getElementById('tab-boards');
+
+      if (view === 'interactive') {
+        interactiveEl.classList.remove('hidden');
+        boardsEl.classList.add('hidden');
+        tabInt.classList.add('bg-ink', 'text-cream', 'shadow-sm');
+        tabInt.classList.remove('text-inkSoft');
+        tabBrd.classList.remove('bg-ink', 'text-cream', 'shadow-sm');
+        tabBrd.classList.add('text-inkSoft');
+      } else {
+        interactiveEl.classList.add('hidden');
+        boardsEl.classList.remove('hidden');
+        tabBrd.classList.add('bg-ink', 'text-cream', 'shadow-sm');
+        tabBrd.classList.remove('text-inkSoft');
+        tabInt.classList.remove('bg-ink', 'text-cream', 'shadow-sm');
+        tabInt.classList.add('text-inkSoft');
+      }
+    }
+
+    // =========================================================================
+    // TABLE ORDER / PRE-ORDER TRAY LOGIC
+    // =========================================================================
+    function updateCart(itemId, delta) {
+      const current = cart[itemId] || 0;
+      const next = current + delta;
+      if (next <= 0) {
+        delete cart[itemId];
+      } else {
+        cart[itemId] = next;
+        if (delta > 0) {
+          const item = MENU_ITEMS.find(i => i.id === itemId);
+          showToast(`Added ${item.name} to Table Tray`);
+        }
+      }
+      renderMenuGrid();
+      renderOrderDrawer();
+    }
+
+    function renderOrderDrawer() {
+      const container = document.getElementById('order-items-container');
+      const badge = document.getElementById('tray-badge');
+      const placeBtn = document.getElementById('place-order-btn');
+
+      const entries = Object.entries(cart);
+      const totalCount = entries.reduce((sum, [, qty]) => sum + qty, 0);
+      badge.textContent = totalCount;
+
+      if (entries.length === 0) {
+        placeBtn.disabled = true;
+        document.getElementById('order-subtotal').textContent = '₹0';
+        document.getElementById('order-gst').textContent = '₹0';
+        document.getElementById('order-total').textContent = '₹0';
+        container.innerHTML = `
+          <div class="h-full flex flex-col items-center justify-center text-center py-12 px-4">
+            <div class="w-16 h-16 rounded-3xl bg-creamWarm text-inkSoft flex items-center justify-center mb-4">
+              <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+              </svg>
+            </div>
+            <h4 class="font-editorial text-xl font-bold text-ink">Your table tray is empty</h4>
+            <p class="text-sm text-inkSoft mt-1.5 max-w-xs">
+              Explore our signature Paneer dishes, Tandoori Breads, Chaat, and Masala Chai to build your order.
+            </p>
+            <button onclick="toggleOrderDrawer(false); document.getElementById('menu').scrollIntoView({behavior:'smooth'});" class="mt-5 px-5 py-2.5 rounded-full bg-accent text-white text-xs font-semibold">
+              Browse Menu
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      placeBtn.disabled = false;
+      let subtotal = 0;
+
+      container.innerHTML = entries.map(([id, qty]) => {
+        const item = MENU_ITEMS.find(i => i.id === id);
+        const lineTotal = item.price * qty;
+        subtotal += lineTotal;
+
+        return `
+          <div class="p-4 rounded-2xl bg-creamWarm border border-ink/10 flex items-center justify-between gap-3">
+            <div class="min-w-0">
+              <div class="flex items-center gap-2">
+                <span class="w-3.5 h-3.5 rounded-xs border border-sage flex items-center justify-center shrink-0">
+                  <span class="w-1.5 h-1.5 rounded-full bg-sage"></span>
+                </span>
+                <h4 class="font-editorial font-bold text-base text-ink truncate">${item.name}</h4>
+              </div>
+              <p class="text-xs text-inkSoft mt-0.5">₹${item.price} each · Line total <strong class="text-ink">₹${lineTotal}</strong></p>
+            </div>
+
+            <div class="inline-flex items-center gap-2 bg-cream border border-ink/15 rounded-full px-2 py-1 shrink-0">
+              <button onclick="updateCart('${item.id}', -1)" class="w-6 h-6 rounded-full hover:bg-creamWarm flex items-center justify-center font-bold text-sm">−</button>
+              <span class="text-xs font-bold min-w-[16px] text-center">${qty}</span>
+              <button onclick="updateCart('${item.id}', 1)" class="w-6 h-6 rounded-full hover:bg-creamWarm flex items-center justify-center font-bold text-sm">+</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      const gst = Math.round(subtotal * 0.05);
+      const grandTotal = subtotal + gst;
+
+      document.getElementById('order-subtotal').textContent = `₹${subtotal}`;
+      document.getElementById('order-gst').textContent = `₹${gst}`;
+      document.getElementById('order-total').textContent = `₹${grandTotal}`;
+    }
+
+    function toggleOrderDrawer(open) {
+      const drawer = document.getElementById('order-drawer');
+      const backdrop = document.getElementById('order-drawer-backdrop');
+      if (open) {
+        renderOrderDrawer();
+        backdrop.classList.remove('hidden');
+        requestAnimationFrame(() => {
+          backdrop.classList.remove('opacity-0');
+          drawer.classList.remove('translate-x-full');
+        });
+      } else {
+        backdrop.classList.add('opacity-0');
+        drawer.classList.add('translate-x-full');
+        setTimeout(() => backdrop.classList.add('hidden'), 300);
+      }
+    }
+
+    let lastGeneratedSummaryText = '';
+
+    function generateKitchenToken() {
+      const entries = Object.entries(cart);
+      if (entries.length === 0) return;
+
+      const tableVal = document.getElementById('order-table-input').value.trim() || 'Counter Pickup / Walk-In';
+      const noteVal = document.getElementById('order-note-input').value.trim() || 'Standard preparation';
+      const tokenCode = 'BH-' + Math.floor(100 + Math.random() * 899);
+
+      let subtotal = 0;
+      const lines = entries.map(([id, qty]) => {
+        const item = MENU_ITEMS.find(i => i.id === id);
+        const lineTotal = item.price * qty;
+        subtotal += lineTotal;
+        return `${qty}x ${item.name} — ₹${lineTotal}`;
+      });
+
+      const gst = Math.round(subtotal * 0.05);
+      const total = subtotal + gst;
+
+      document.getElementById('token-number').textContent = tokenCode;
+      document.getElementById('token-meta').textContent = `${tableVal} · Est. Prep: 12–15 mins`;
+
+      const summaryBox = document.getElementById('token-summary-box');
+      summaryBox.innerHTML = `
+        <div class="font-bold text-ink border-b border-ink/15 pb-1.5 mb-1.5">BHOJANAM CAFE &amp; FOOD COURT</div>
+        ${lines.map(l => `<div>${l}</div>`).join('')}
+        <div class="border-t border-ink/15 pt-1.5 mt-1.5 flex justify-between">
+          <span>Subtotal + 5% GST:</span>
+          <strong>₹${total}</strong>
+        </div>
+        <div class="text-inkSoft pt-1">Note: ${noteVal}</div>
+      `;
+
+      lastGeneratedSummaryText = [
+        `Bhojanam Cafe & Food Court — Order Token #${tokenCode}`,
+        `Table/Mode: ${tableVal}`,
+        `----------------------------`,
+        ...lines,
+        `----------------------------`,
+        `Subtotal: ₹${subtotal} | GST (5%): ₹${gst}`,
+        `Grand Total: ₹${total}`,
+        `Kitchen Note: ${noteVal}`
+      ].join('\n');
+
+      toggleOrderDrawer(false);
+      const modal = document.getElementById('token-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeTokenModal() {
+      const modal = document.getElementById('token-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function copyOrderSummary() {
+      if (!lastGeneratedSummaryText) return;
+      const tempArea = document.createElement('textarea');
+      tempArea.value = lastGeneratedSummaryText;
+      document.body.appendChild(tempArea);
+      tempArea.select();
+      try {
+        document.execCommand('copy');
+        showToast('Order summary copied to clipboard!');
+      } catch (err) {
+        showToast('Ready to show at counter!');
+      }
+      document.body.removeChild(tempArea);
+    }
+
+    // =========================================================================
+    // TABLE RESERVATION & GROUP HANGOUT MODAL LOGIC
+    // =========================================================================
+    function openReserveModal() {
+      const dateInput = document.getElementById('res-date');
+      if (!dateInput.value) {
+        const today = new Date().toISOString().split('T')[0];
+        dateInput.value = today;
+        dateInput.min = today;
+      }
+      const modal = document.getElementById('reserve-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeReserveModal() {
+      const modal = document.getElementById('reserve-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function submitReservation(e) {
+      e.preventDefault();
+      const name = document.getElementById('res-name').value.trim();
+      const guests = document.getElementById('res-guests').value;
+      const date = document.getElementById('res-date').value;
+      const slot = document.getElementById('res-slot').value;
+      const vibe = document.querySelector('input[name="seating-vibe"]:checked')?.value || 'Cozy Corner Booth';
+      const code = 'BHJ-' + Math.floor(1000 + Math.random() * 9000);
+
+      document.getElementById('pass-code').textContent = code;
+      document.getElementById('pass-name').textContent = name;
+      document.getElementById('pass-guests').textContent = guests;
+      document.getElementById('pass-date').textContent = date;
+      document.getElementById('pass-vibe').textContent = vibe;
+      document.getElementById('pass-slot').textContent = slot;
+
+      document.getElementById('reserve-form-view').classList.add('hidden');
+      document.getElementById('reserve-pass-view').classList.remove('hidden');
+      showToast(`Table reserved! Code: ${code}`);
+    }
+
+    function resetReserveModal() {
+      document.getElementById('reserve-pass-view').classList.add('hidden');
+      document.getElementById('reserve-form-view').classList.remove('hidden');
+    }
+
+    // =========================================================================
+    // ZOOMABLE HIGH-RES LIGHTBOX MODAL (MENU BOARDS & GALLERY)
+    // =========================================================================
+    function openLightbox(src, title, caption) {
+      const modal = document.getElementById('lightbox-modal');
+      const img = document.getElementById('lightbox-img');
+      img.src = src;
+      img.classList.remove('zoomed');
+      document.getElementById('lightbox-title').textContent = title || 'Bhojanam Gallery';
+      document.getElementById('lightbox-caption').textContent = caption || 'Click image to toggle zoom';
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeLightbox() {
+      const modal = document.getElementById('lightbox-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      document.getElementById('lightbox-img').classList.remove('zoomed');
+    }
+
+    function toggleLightboxZoom() {
+      document.getElementById('lightbox-img').classList.toggle('zoomed');
+    }
+
+    // =========================================================================
+    // HOURS MODAL, LIVE STATUS BADGE, MOBILE DRAWER & SCROLL MICRO-INTERACTIONS
+    // =========================================================================
+    function openHoursModal() {
+      const modal = document.getElementById('hours-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeHoursModal() {
+      const modal = document.getElementById('hours-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function toggleMobileMenu() {
+      document.getElementById('mobile-menu').classList.toggle('hidden');
+    }
+
+    let toastTimer;
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-msg').textContent = message;
+      toast.classList.remove('hidden');
+      toast.classList.add('flex');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.classList.add('hidden');
+        toast.classList.remove('flex');
+      }, 2600);
+    }
+
+    // Dynamic Live Hours Status Evaluator (9:00 AM - 10:30 PM)
+    function updateLiveCafeStatus() {
+      const now = new Date();
+      const mins = now.getHours() * 60 + now.getMinutes();
+      const openMins = 9 * 60;        // 9:00 AM
+      const closingSoon = 21 * 60 + 45; // 9:45 PM
+      const closeMins = 22 * 60 + 30; // 10:30 PM
+
+      const statusText = document.getElementById('live-status-text');
+      const mobileStatus = document.getElementById('mobile-live-status');
+      const visitBadge = document.getElementById('visit-live-badge');
+      const modalStatus = document.getElementById('modal-live-status');
+
+      if (mins >= openMins && mins < closingSoon) {
+        if (statusText) statusText.textContent = 'Open Now · Till 10:30 PM';
+        if (mobileStatus) mobileStatus.textContent = 'Open Now · 9:00 AM – 10:30 PM';
+        if (visitBadge) visitBadge.textContent = 'Open Now · Serving Fresh Till 10:30 PM';
+        if (modalStatus) modalStatus.textContent = 'Open Now · Kitchen & Chai Counter Active';
+      } else if (mins >= closingSoon && mins < closeMins) {
+        if (statusText) statusText.textContent = 'Closing Soon · 10:30 PM';
+        if (mobileStatus) mobileStatus.textContent = 'Closing Soon · Last Orders Till 10:15 PM';
+        if (visitBadge) visitBadge.textContent = 'Closing Soon · Last Orders Till 10:15 PM';
+        if (modalStatus) modalStatus.textContent = 'Closing Soon · Last Orders Active';
+      } else {
+        if (statusText) statusText.textContent = 'Opens 9:00 AM · Pre-Book';
+        if (mobileStatus) mobileStatus.textContent = 'Opens 9:00 AM · Table Booking Open';
+        if (visitBadge) visitBadge.textContent = 'Opens 9:00 AM · Reserve Ahead Online';
+        if (modalStatus) modalStatus.textContent = 'Currently Closed · Opens 9:00 AM';
+      }
+    }
+
+    // Scroll Progress Bar, Active Nav Link Highlighting & Reveal Observer
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      document.getElementById('scroll-progress').style.width = `${pct}%`;
+
+      const navbar = document.getElementById('navbar');
+      if (scrollTop > 20) {
+        navbar.classList.add('shadow-sm');
+      } else {
+        navbar.classList.remove('shadow-sm');
+      }
+
+      // Active section link highlight
+      const sections = ['about', 'menu', 'gallery', 'visit'];
+      let currentSec = '';
+      sections.forEach(id => {
+        const el = document.getElementById(id);
+        if (el && scrollTop >= el.offsetTop - 160) {
+          currentSec = id;
+        }
+      });
+
+      document.querySelectorAll('.nav-link').forEach(link => {
+        const href = link.getAttribute('href').replace('#', '');
+        if (href === currentSec) {
+          link.classList.add('text-accent', 'border-accent');
+          link.classList.remove('border-transparent');
+        } else {
+          link.classList.remove('text-accent', 'border-accent');
+          link.classList.add('border-transparent');
+        }
+      });
+    }, { passive: true });
+
+    // IntersectionObserver for smooth scroll reveals
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    // Escape key closes active modals/drawers
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeLightbox();
+        closeReserveModal();
+        closeTokenModal();
+        closeHoursModal();
+        toggleOrderDrawer(false);
+      }
+    });
+
+    // Initialize UI
+    updateLiveCafeStatus();
+    renderMenuGrid();
+    renderOrderDrawer();
+  </script>
+</body>
+</html>
